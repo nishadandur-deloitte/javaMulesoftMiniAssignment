@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="divisionFlow" doc:id="bddcd599-3d68-491f-87dc-a909d21e5190" >
+		<logger level="INFO" doc:name="Starts" doc:id="0bf380b9-438d-4360-8f2d-ab7ba7513011" message="Divison Starts"/>
+		<java:invoke-static doc:name="Divide" doc:id="d7c3d38f-350a-4962-b580-718660174c46" class="calculator.Calculator" method="divide(int,int)">
+			<java:args ><![CDATA[#[{
+	a: attributes.queryParams.num1, b: attributes.queryParams.num2
+}]]]></java:args>
+		</java:invoke-static>
+		<ee:transform doc:name="Result Division" doc:id="46fea27a-cdad-48c0-b252-cbaec8d05d6a" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  Result: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Ends" doc:id="fad0fcd5-a09b-4496-9ac3-c4a82a0331f9" message="Division Ends"/>
+	</flow>
+</mule>

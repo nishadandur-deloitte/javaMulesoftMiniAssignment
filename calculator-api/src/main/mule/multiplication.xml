@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="multiplicationFlow" doc:id="b4847034-b1ed-47f9-a0df-d9a832165cf3" >
+		<logger level="INFO" doc:name="Starts" doc:id="5a0d7ea2-afed-419d-9ecd-2c14d653bcf7" message="Multiplication Starts"/>
+		<java:invoke-static doc:name="Multiply" doc:id="421f9b56-207d-42d2-9bb1-ec27ed5d467c" class="calculator.Calculator" method="multiply(int,int)">
+			<java:args ><![CDATA[#[{
+	a: attributes.queryParams.num1, b: attributes.queryParams.num2
+}]]]></java:args>
+		</java:invoke-static>
+		<ee:transform doc:name="Result Multiplication" doc:id="3886b2d4-3f89-4b27-a26f-ae5d64c2184c" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  Result: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Ends" doc:id="489133de-6d20-4f3c-a4dd-c356e10e0338" message="Multiplication Ends"/>
+	</flow>
+</mule>

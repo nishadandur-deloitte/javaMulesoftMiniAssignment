@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:java="http://www.mulesoft.org/schema/mule/java"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="additionFlow" doc:id="8183b514-95e5-4be6-89eb-d2204b9d2994" >
+		<logger level="INFO" doc:name="Starts" doc:id="7135da85-33e9-41e6-987a-8af0353f0c93" message="Addition Starts"/>
+		<java:invoke-static method="add(int,int)" doc:name="Add" doc:id="310bdf28-7f21-4282-a040-10f197cecaa3" class="calculator.Calculator" >
+			<java:args ><![CDATA[#[{
+	a: attributes.queryParams.num1, b: attributes.queryParams.num2
+}]]]></java:args>
+		</java:invoke-static>
+		<ee:transform doc:name="Result Addition" doc:id="2464ef96-5e55-40fd-8f7c-7c702a5eeaf5" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+  Result: payload
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Ends" doc:id="8a3dbdd8-0d94-4796-9fce-ae2f8b5f81f2" message="Addition Ends"/>
+	</flow>
+</mule>
