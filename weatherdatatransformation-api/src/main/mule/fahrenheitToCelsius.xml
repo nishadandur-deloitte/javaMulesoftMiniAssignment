@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<flow name="fahrenheitToCelsiusFlow" doc:id="268becd5-b85a-463c-8621-3c0e0748f210" >
+		<logger level="INFO" doc:name="Starts" doc:id="d20eb72c-79c1-40e7-87c8-316712a48e83" message="Fahrenheit To Celsius Conversion Starts" />
+		<ee:transform doc:name="Fahrenheit To Celsius Conversion" doc:id="b0235d05-ed35-4d63-aed4-0db33dedcdd9" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+import java!weatherdatatransformation::TemperatureConverter
+---
+{
+	"Fahrenheit To Celsius": TemperatureConverter::fahrenheitToCelsius(attributes.queryParams.fahrenheit)
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Ends" doc:id="679bd942-326c-45db-8e80-de9da610e76a" message="Fahrenheit To Celsius Conversion Ends" />
+	</flow>
+</mule>
